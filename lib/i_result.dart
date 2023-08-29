@@ -8,7 +8,7 @@ abstract class IErrorType {
 
 /// A result type that can be either a value or a error that implements [IError].
 ///
-abstract class IResult<Value> {
+sealed class IResult<Value> {
   factory IResult.ok(Value value) = IOk<Value>;
   factory IResult.err(IError error) = IErr<Value>;
 

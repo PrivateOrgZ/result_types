@@ -4,7 +4,7 @@ abstract class TError {
   TError from(dynamic value);
 }
 
-abstract class TResult<Value> {
+sealed class TResult<Value> {
   factory TResult.ok(Value value) = TOk<Value>;
   factory TResult.err(TError error) = TErr<Value>;
 

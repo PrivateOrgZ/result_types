@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:result_types/result_types.dart';
 
 class TestError implements IError {}
@@ -12,12 +11,10 @@ enum ErrorType implements IErrorType {
 
   @override
   IError from(dynamic value) {
-    switch (this) {
-      case ErrorType.testError:
-        return TestError();
-      case ErrorType.unimplementedError:
-        return UnimplementedError();
-    }
+    return switch (this) {
+      ErrorType.testError => TestError(),
+      ErrorType.unimplementedError => UnimplementedError(),
+    };
   }
 }
 
@@ -34,12 +31,10 @@ IResult<int> testFunction(int value) {
 IResult<int> testFunctionErr(ErrorType value) => IErr.from(value);
 
 ErrorType testFunctionErrExhastiveness(ErrorType value) {
-  switch (value) {
-    case ErrorType.testError:
-      return ErrorType.testError;
-    case ErrorType.unimplementedError:
-      return ErrorType.unimplementedError;
-  }
+  return switch (value) {
+    ErrorType.testError => ErrorType.testError,
+    ErrorType.unimplementedError => ErrorType.unimplementedError,
+  };
 }
 
 void main() {

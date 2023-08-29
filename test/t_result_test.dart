@@ -1,22 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:result_types/result_types.dart';
 
 class TestError implements TError {
-  const TestError();
-
   @override
   TError from(dynamic value) {
-    return const TestError();
+    return TestError();
   }
 }
 
 class UnimplementedError implements TError {
-  const UnimplementedError();
-
   @override
   TError from(dynamic value) {
-    return const UnimplementedError();
+    return UnimplementedError();
   }
 }
 
@@ -24,9 +19,9 @@ TResult<int> testFunction(int value) {
   if (value == 0) {
     return TResult.from(1);
   } else if (value == 1) {
-    return TResult.from(const TestError());
+    return TResult.from(TestError());
   } else {
-    return TResult.from(const UnimplementedError());
+    return TResult.from(UnimplementedError());
   }
 }
 
@@ -35,11 +30,9 @@ TResult<int> testFunctionErr(TError value) => TErr.from(value);
 TError testFunctionErrExhastiveness(TError value) {
   switch (value) {
     case TestError():
-      return const TestError();
-    case UnimplementedError():
-      return const TestError();
+      return TestError();
     default:
-      return const UnimplementedError();
+      return UnimplementedError();
   }
 }
 
@@ -49,11 +42,11 @@ void main() {
     expect(result, isA<TOk<int>>());
     expect((result as TOk<int>).value, 1);
 
-    final result2 = TResult<int>.from(const TestError());
+    final result2 = TResult<int>.from(TestError());
     expect(result2, isA<TErr>());
     expect((result2 as TErr).error, isA<TestError>());
 
-    final result3 = TResult<int>.from(const UnimplementedError());
+    final result3 = TResult<int>.from(UnimplementedError());
     expect(result3, isA<TErr>());
     expect((result3 as TErr).error, isA<UnimplementedError>());
 
