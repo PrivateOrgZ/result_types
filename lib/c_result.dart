@@ -4,6 +4,10 @@ sealed class CResult<Value, Error> {
   factory CResult.ok(Value value) = COk<Value, Error>;
   factory CResult.err(Error error) = CErr<Value, Error>;
 
+  /// Constructs a [CResult] from a dynamic value
+  /// If the value is [CResult] it will return the value itself
+  /// If the value is [Value] it will return [COk]
+  /// If the value is [Error] it will return [CErr]
   factory CResult.from(dynamic value) {
     if (value is CResult<Value, Error>) {
       return value;
