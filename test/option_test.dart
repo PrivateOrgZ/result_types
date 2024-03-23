@@ -13,5 +13,11 @@ void main() {
 
     final result3 = Option.none();
     expect(result3, isA<None>());
+
+    final result4 = ~Option.from(1);
+    expect(result4, 1);
+
+    final result5 = ~Option.none();
+    expect(result5, isA<None>());
   });
 }

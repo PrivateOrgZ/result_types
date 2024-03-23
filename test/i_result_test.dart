@@ -62,6 +62,12 @@ void main() {
     final result6 = testFunction(2);
     expect(result6, isA<IErr>());
     expect((result6 as IErr).error, isA<UnimplementedError>());
+
+    final result7 = ~IResult.from(1);
+    expect(result7, 1);
+
+    final result8 = ~IResult.from(TestError());
+    expect(result8, isA<TestError>());
   });
 
   test('Test IResult Type Exhaustiveness', () {

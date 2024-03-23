@@ -18,6 +18,18 @@ sealed class Option<Value> {
     }
   }
 
+  /// Returns the inner [Value] from [Some] or [None]
+  /// Convinient operator to get the inner value from the [Option],
+  /// Usage:
+  /// final res = Option<int>.from(1);
+  /// int val = ~res;
+  /// assert(val == 1);
+  ///
+  /// final res = Option<int>.none();
+  /// int err = ~res;
+  /// assert(err is None);
+  operator ~() => ~this;
+
   /// Returns the [Value] if it is [Some] or throws an error if it is [None]
   /// Convinient operator to get the value from the result,
   /// user should ensure that the result is [Some], otherwise it will throw an [UnimplementedError]
@@ -42,6 +54,9 @@ class Some<Value> implements Option<Value> {
   const Some(this.value);
 
   @override
+  Value operator ~() => value;
+
+  @override
   Value operator |(_) => value;
 
   @override
@@ -50,6 +65,9 @@ class Some<Value> implements Option<Value> {
 
 class None<T> implements Option<T> {
   const None();
+
+  @override
+  None operator ~() => const None();
 
   @override
   T operator |(_) => throw UnimplementedError();

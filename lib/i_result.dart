@@ -41,6 +41,27 @@ sealed class IResult<Value> {
     }
   }
 
+  /// Returns the value if it is [IOk] or error if it is [IErr]
+  /// Convinient operator to get the inner value from the result,
+  /// Usage:
+  /// ```
+  /// final res = IResult<int>.from(1);
+  /// int val = ~res;
+  /// assert(val == 1);
+  /// ```
+  ///
+  /// Error Usage:
+  /// ```
+  /// enum TestErrorType implements IErrorType {
+  ///  error,
+  /// }
+  ///
+  /// final res = IResult<int>.from(TestErrorType.error);
+  /// String err = ~res;
+  /// assert(err is TestErrorType);
+  /// ```
+  operator ~() => ~this;
+
   /// Returns the value if it is [COk] or throws an error if it is [CErr]
   /// Convinient operator to get the value from the result,
   /// user should ensure that the result is [COk], otherwise it will throw an [UnimplementedError]
@@ -69,6 +90,9 @@ class IOk<Value> implements IResult<Value> {
   const IOk(this.value);
 
   @override
+  Value operator ~() => value;
+
+  @override
   Value operator |(_) => value;
 
   @override
@@ -82,6 +106,9 @@ class IErr<Value> implements IResult<Value> {
   factory IErr.from(IErrorType type) {
     return IErr(type.from(type));
   }
+
+  @override
+  Error operator ~() => error;
 
   @override
   Value operator |(_) => throw UnimplementedError();

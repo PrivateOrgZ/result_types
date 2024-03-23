@@ -61,5 +61,11 @@ void main() {
     final result6 = testFunction(2);
     expect(result6, isA<TErr>());
     expect((result6 as TErr).error, isA<UnimplementedError>());
+
+    final result7 = ~TResult.from(1);
+    expect(result7, 1);
+
+    final result8 = ~TResult.from(TestError());
+    expect(result8, isA<TestError>());
   });
 }
