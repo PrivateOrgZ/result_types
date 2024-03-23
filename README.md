@@ -1,39 +1,66 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Result Types
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+This package provides a set of types - `CResult`, `IResult`, `TResult`, and `Option` - inspired by the `Result` and `Option` types in the Rust programming language. These types are designed to help you handle errors and nullability in a more structured and predictable way, making your Dart code safer and more robust.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Getting Started
 
-## Features
+### Prerequisites
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+`Dart SDK: '>=3.0.0 <4.0.0'`
 
-## Getting started
+### Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add this to your package's `pubspec.yaml` file:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  result_types: ^0.0.3
 ```
 
-## Additional information
+```
+flutter pub get
+```
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### Usage
+
+#### CResult Usage
+```dart
+sealed class CError {}
+
+class TestError extends CError {}
+
+final result = CResult<int, CError>.from(1);
+expect(result, isA<COk<int, CError>>());
+expect((result as COk).value, 1);
+
+final result2 = CResult<int, CError>.from(TestError());
+expect(result2, isA<CErr>());
+expect((result2 as CErr).error, isA<TestError>());
+
+final result3 = CResult<int, CError>.from(UnimplementedError());
+expect(result3, isA<CErr>());
+expect((result3 as CErr).error, isA<UnimplementedError>());
+```
+
+#### Option Usage
+```dart
+final result = Option<int>.from(1);
+expect(result, isA<Some<int>>());
+expect((result as Some).value, 1);
+
+final result2 = Option<int>.from(0);
+expect(result2, isA<Some<int>>());
+expect((result2 as Some).value, 0);
+
+final result3 = Option.none();
+expect(result3, isA<None>());
+
+final result4 = ~Option.from(1);
+expect(result4, 1);
+
+final result5 = ~Option.none();
+expect(result5, isA<None>());
+```
+
+More Examples are available in respective tests for each type.
