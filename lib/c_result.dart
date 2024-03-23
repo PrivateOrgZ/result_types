@@ -19,14 +19,44 @@ sealed class CResult<Value, Error> {
       throw UnimplementedError();
     }
   }
+
+  /// Returns the value if it is [COk] or throws an error if it is [CErr]
+  /// Convinient operator to get the value from the result,
+  /// user should ensure that the result is [COk], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// final res = CResult<int, String>.from(1);
+  /// final val = res | 0;
+  /// assert(val == 1);
+  Value operator |(a) => this | a;
+
+  /// Returns the error if it is [CErr] or throws an error if it is [COk]
+  /// Convinient operator to get the error from the result,
+  /// user should ensure that the result is [CErr], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// final res = CResult<int, String>.from('error');
+  /// final err = res / 0;
+  /// assert(err == 'error');
+  Error operator /(a) => this / a;
 }
 
 class COk<Value, Error> implements CResult<Value, Error> {
   final Value value;
   const COk(this.value);
+
+  @override
+  Value operator |(_) => value;
+
+  @override
+  Error operator /(a) => throw UnimplementedError();
 }
 
 class CErr<Value, Error> implements CResult<Value, Error> {
   final Error error;
   const CErr(this.error);
+
+  @override
+  Value operator |(_) => throw UnimplementedError();
+
+  @override
+  Error operator /(a) => error;
 }

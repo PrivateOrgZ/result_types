@@ -42,11 +42,35 @@ sealed class TResult<Value> {
       throw UnimplementedError();
     }
   }
+
+  /// Returns the value if it is [TOk] or throws an error if it is [TErr]
+  /// Convinient operator to get the value from the result,
+  /// user should ensure that the result is [TOk], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// final res = TResult<int>.from(1);
+  /// final val = res | 0;
+  /// assert(val == 1);
+  Value operator |(a) => this | a;
+
+  /// Returns the error if it is [CErr] or throws an error if it is [COk]
+  /// Convinient operator to get the error from the result,
+  /// user should ensure that the result is [CErr], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// final res = TResult<int>.from(CustomError());
+  /// final err = res / 0;
+  /// assert(err is CustomError);
+  Error operator /(a) => this / a;
 }
 
 class TOk<Value> implements TResult<Value> {
   final Value value;
   const TOk(this.value);
+
+  @override
+  Value operator |(_) => value;
+
+  @override
+  Error operator /(a) => throw UnimplementedError();
 }
 
 class TErr<Value> implements TResult<Value> {
@@ -56,4 +80,10 @@ class TErr<Value> implements TResult<Value> {
   factory TErr.from(TError type) {
     return TErr(type.from(type));
   }
+
+  @override
+  Value operator |(_) => throw UnimplementedError();
+
+  @override
+  Error operator /(a) => error;
 }

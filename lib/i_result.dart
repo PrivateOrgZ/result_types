@@ -40,11 +40,39 @@ sealed class IResult<Value> {
       throw UnimplementedError();
     }
   }
+
+  /// Returns the value if it is [COk] or throws an error if it is [CErr]
+  /// Convinient operator to get the value from the result,
+  /// user should ensure that the result is [COk], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// ```
+  /// final res = CResult<int, String>.from(1);
+  /// final val = res | 0;
+  /// assert(val == 1);
+  /// ```
+  Value operator |(a) => this | a;
+
+  /// Returns the error if it is [CErr] or throws an error if it is [COk]
+  /// Convinient operator to get the error from the result,
+  /// user should ensure that the result is [CErr], otherwise it will throw an [UnimplementedError]
+  /// Usage:
+  /// ```
+  /// final res = CResult<int, String>.from('error');
+  /// final err = res / 0;
+  /// assert(err == 'error');
+  /// ```
+  Error operator /(a) => this / a;
 }
 
 class IOk<Value> implements IResult<Value> {
   final Value value;
   const IOk(this.value);
+
+  @override
+  Value operator |(_) => value;
+
+  @override
+  Error operator /(a) => throw UnimplementedError();
 }
 
 class IErr<Value> implements IResult<Value> {
@@ -54,4 +82,10 @@ class IErr<Value> implements IResult<Value> {
   factory IErr.from(IErrorType type) {
     return IErr(type.from(type));
   }
+
+  @override
+  Value operator |(_) => throw UnimplementedError();
+
+  @override
+  Error operator /(a) => error;
 }
