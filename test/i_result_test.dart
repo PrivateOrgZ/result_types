@@ -38,7 +38,7 @@ ErrorType testFunctionErrExhastiveness(ErrorType value) {
 }
 
 void main() {
-  test('adds one to input values', () {
+  test('Test IResult Type', () {
     final result = IResult<int>.from(1);
     expect(result, isA<IOk<int>>());
     expect((result as IOk<int>).value, 1);
@@ -64,7 +64,7 @@ void main() {
     expect((result6 as IErr).error, isA<UnimplementedError>());
   });
 
-  test('test exhaustiveness', () {
+  test('Test IResult Type Exhaustiveness', () {
     final result = testFunctionErrExhastiveness(ErrorType.testError);
     expect(result, ErrorType.testError);
 

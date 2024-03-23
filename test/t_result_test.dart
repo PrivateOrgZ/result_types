@@ -37,7 +37,7 @@ TError testFunctionErrExhastiveness(TError value) {
 }
 
 void main() {
-  test('adds one to input values', () {
+  test('Test TResult Type', () {
     final result = TResult<int>.from(1);
     expect(result, isA<TOk<int>>());
     expect((result as TOk<int>).value, 1);

@@ -24,7 +24,7 @@ CResult<int, CError> testFunctionErr(CError value) => switch (value) {
     };
 
 void main() {
-  test('adds one to input values', () {
+  test('Test CResult Type', () {
     final result = CResult<int, CError>.from(1);
     expect(result, isA<COk<int, CError>>());
     expect((result as COk).value, 1);
@@ -49,6 +49,4 @@ void main() {
     expect(result6, isA<CErr>());
     expect((result6 as CErr).error, isA<UnimplementedError>());
   });
-
-  test('test exhaustiveness', () {});
 }
