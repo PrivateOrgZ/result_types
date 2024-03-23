@@ -1,6 +1,6 @@
 library i_result;
 
-abstract class IError {}
+abstract class IError extends Error {}
 
 abstract class IErrorType {
   IError from(dynamic value);

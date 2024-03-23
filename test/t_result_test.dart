@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result_types/result_types.dart';
 
-class TestError implements TError {
+class TestError extends TError {
   @override
   TError from(dynamic value) {
     return TestError();
   }
 }
 
-class UnimplementedError implements TError {
+class UnimplementedError extends TError {
   @override
   TError from(dynamic value) {
     return UnimplementedError();

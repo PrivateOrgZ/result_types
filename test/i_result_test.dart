@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result_types/result_types.dart';
 
-class TestError implements IError {}
+class TestError extends IError {}
 
-class UnimplementedError implements IError {}
+class UnimplementedError extends IError {}
 
 enum ErrorType implements IErrorType {
   testError,

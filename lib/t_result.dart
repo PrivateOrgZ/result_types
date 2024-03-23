@@ -1,6 +1,6 @@
 library t_result;
 
-abstract class TError {
+abstract class TError extends Error {
   TError from(dynamic value);
 }
 
